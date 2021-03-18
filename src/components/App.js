@@ -1,16 +1,25 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import AppRouter from './AppRouter';
-import Navbar from './Navbar';
+import React, { useContext } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { BrowserRouter } from "react-router-dom";
+import { Context } from "..";
+import AppRouter from "./AppRouter";
+import Loader from "./Loader";
+import Navbar from "./Navbar";
 
- const App = () => {
+const App = () => {
+  const { auth } = useContext(Context);
+  const [user, loading, error] = useAuthState(auth);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <BrowserRouter>
       <Navbar />
-      <AppRouter/>
+      <AppRouter />
     </BrowserRouter>
-  )
-}
+  );
+};
 
-
-export default App
+export default App;
